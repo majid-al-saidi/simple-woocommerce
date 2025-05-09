@@ -8,9 +8,11 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('dashboard'); 
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+//This is for breeze:
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -18,3 +20,11 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+//this is for filament:
+Route::get('/admin-login', function () { return redirect('/admin/login'); })->name('admin-login');
+// Route::get('/register', function () { return redirect('/register'); })->name('register');
+
+
+
