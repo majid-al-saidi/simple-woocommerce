@@ -24,7 +24,12 @@ require __DIR__.'/auth.php';
 
 //this is for filament:
 Route::get('/admin-login', function () { return redirect('/admin/login'); })->name('admin-login');
-// Route::get('/register', function () { return redirect('/register'); })->name('register');
+
+
+//For testing purposes:
+Route::get('/home', function () {
+    return view('home');
+})->name('home');
 
 
 
