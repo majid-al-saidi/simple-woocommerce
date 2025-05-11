@@ -33,3 +33,11 @@ Route::get('/home', function () {
 
 
 
+Route::post('/switch-language', function () {
+    
+    $locale = request('locale');
+    session(['locale' => $locale]);
+    app()->setLocale($locale);
+
+    return back();
+})->name('language.switch');
