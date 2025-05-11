@@ -19,6 +19,8 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
+//manually added
+use Filament\FontProviders\LocalFontProvider;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -29,7 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->renderHook('panels::user-menu.profile.after', fn () => view('components.filament.language-switcher'))
+            ->renderHook('panels::user-menu.profile.after', fn() => view('components.filament.language-switcher'))
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -57,6 +59,15 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->font(
+                'IBMPlexArabic',
+                url: asset('css/fonts.css'),
+                provider: LocalFontProvider::class,
+            )
+            ->brandName('المتجر الموحّد')
+            ->brandLogo(asset('images/general/online-store.png'))
+            ->brandLogoHeight('2rem')
+            ->favicon(asset('favicon.ico'));
     }
 }
