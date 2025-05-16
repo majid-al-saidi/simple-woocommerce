@@ -2,23 +2,23 @@
 
 return [
 
-    'title' => 'لوحة التحكم',
+    'title' => 'Dashboard',
 
     'actions' => [
 
         'filter' => [
 
-            'label' => 'تصفية',
+            'label' => 'Filter',
 
             'modal' => [
 
-                'heading' => 'تصفية',
+                'heading' => 'Filter',
 
                 'actions' => [
 
                     'apply' => [
 
-                        'label' => 'تطبيق',
+                        'label' => 'Apply',
 
                     ],
 
@@ -29,8 +29,5 @@ return [
         ],
 
     ],
-    [
-        'product' => 'منتج',
-    ]
 
 ];

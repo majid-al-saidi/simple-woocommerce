@@ -21,6 +21,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 //manually added
 use Filament\FontProviders\LocalFontProvider;
+use Filament\Navigation\MenuItem;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -68,6 +69,10 @@ class AdminPanelProvider extends PanelProvider
             ->brandName('المتجر الموحّد')
             ->brandLogo(asset('images/general/online-store.png'))
             ->brandLogoHeight('2rem')
-            ->favicon(asset('favicon.ico'));
+            ->favicon(asset('favicon.ico'))
+            ->profile()
+            ->userMenuItems([
+                'profile' => MenuItem::make()->label('Edit profile'),
+            ]);
     }
 }
