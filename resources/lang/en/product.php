@@ -25,5 +25,6 @@ return [
         'stock' => 'Stock',
         'image' => 'Product Image',
         'owner' => 'Product Owner',
+        'view' => 'View Product',
     ],
 ];

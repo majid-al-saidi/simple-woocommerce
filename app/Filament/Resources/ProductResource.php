@@ -56,17 +56,23 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->searchable()->label(__('product.fields.name')),
+                Tables\Columns\TextColumn::make('name')->searchable()->sortable()->label(__('product.fields.name')),
                 Tables\Columns\TextColumn::make('price')->money('OMR')->label(__('product.fields.price')),
                 Tables\Columns\TextColumn::make('stock')->label(__('product.fields.stock')),
-                Tables\Columns\TextColumn::make('owner.name')->label('Owner')->label(__('product.fields.owner')),
+                Tables\Columns\TextColumn::make('owner.name')->searchable()->label('Owner')->label(__('product.fields.owner')),
                 ImageColumn::make('image')->disk('public')->label('product-images')->label(__('product.fields.image')),
             ])
             ->filters([
-                //
+                Tables\Filters\Filter::make('in_stock')
+                    ->query(fn($query) => $query->where('stock', '>', 0))
+                    ->label('منتجات متوفرة'),
+                Tables\Filters\Filter::make('out_of_stock')
+                    ->query(fn($query) => $query->where('stock', 0))
+                    ->label('منتجات غير متوفرة'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make()->label(__('product.fields.view')),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -88,6 +94,7 @@ class ProductResource extends Resource
             'index' => Pages\ListProducts::route('/'),
             'create' => Pages\CreateProduct::route('/create'),
             'edit' => Pages\EditProduct::route('/{record}/edit'),
+            'view' => Pages\ViewProduct::route('/{record}'),
         ];
     }
 }
