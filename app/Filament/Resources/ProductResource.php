@@ -15,9 +15,20 @@ use Filament\Tables\Columns\{TextColumn, ImageColumn};
 class ProductResource extends Resource
 {
 
+    //This is for the translation: //resources\lang\ar\models\product.php
+    public static function getLabel(): string
+    {
+        return __('product.label');
+    }
+
+    public static function getPluralLabel(): string
+    {
+        return __('product.plural');
+    }
+
     public static function getNavigationLabel(): string
     {
-        return __('dashboard.product.label');
+        return __('filament-dashboard.product.label');
     }
 
     protected static ?string $model = Product::class;
@@ -28,16 +39,16 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')->required()->label(__('fields/product.name')),
-                Forms\Components\Textarea::make('description')->label(__('fields/product.description')),
-                Forms\Components\TextInput::make('price')->numeric()->required()->label(__('fields/product.price')),
-                Forms\Components\TextInput::make('stock')->numeric()->required()->label(__('fields/product.stock')),
-                Forms\Components\FileUpload::make('image')->directory('product-images')->label(__('fields/product.image')),
+                Forms\Components\TextInput::make('name')->required()->label(__('product.fields.name')),
+                Forms\Components\Textarea::make('description')->label(__('product.fields.description')),
+                Forms\Components\TextInput::make('price')->numeric()->required()->label(__('product.fields.price')),
+                Forms\Components\TextInput::make('stock')->numeric()->required()->label(__('product.fields.stock')),
+                Forms\Components\FileUpload::make('image')->directory('product-images')->label(__('product.fields.image')),
                 Forms\Components\Select::make('owner_id')
                     ->relationship('owner', 'name')
                     ->searchable()
                     ->required()
-                    ->label(__('fields/product.owner')),
+                    ->label(__('product.fields.owner')),
             ]);
     }
 
@@ -45,11 +56,11 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->searchable(),
-                Tables\Columns\TextColumn::make('price')->money('OMR'),
-                Tables\Columns\TextColumn::make('stock'),
-                Tables\Columns\TextColumn::make('owner.name')->label('Owner'),
-                ImageColumn::make('image')->disk('public')->label('product-images'),
+                Tables\Columns\TextColumn::make('name')->searchable()->label(__('product.fields.name')),
+                Tables\Columns\TextColumn::make('price')->money('OMR')->label(__('product.fields.price')),
+                Tables\Columns\TextColumn::make('stock')->label(__('product.fields.stock')),
+                Tables\Columns\TextColumn::make('owner.name')->label('Owner')->label(__('product.fields.owner')),
+                ImageColumn::make('image')->disk('public')->label('product-images')->label(__('product.fields.image')),
             ])
             ->filters([
                 //
