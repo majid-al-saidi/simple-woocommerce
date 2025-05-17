@@ -3,8 +3,11 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductResource\Pages;
+
 use App\Models\Product;
+use App\Traits\HasTranslatedResourceLabels;
 use Filament\Forms;
+use Filament\Forms\Components\{TextInput, Textarea, FileUpload, Select};
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -15,21 +18,7 @@ use Filament\Tables\Columns\{TextColumn, ImageColumn};
 class ProductResource extends Resource
 {
 
-    //This is for the translation: //resources\lang\ar\models\product.php
-    public static function getLabel(): string
-    {
-        return __('product.label');
-    }
-
-    public static function getPluralLabel(): string
-    {
-        return __('product.plural');
-    }
-
-    public static function getNavigationLabel(): string
-    {
-        return __('filament-dashboard.product.label');
-    }
+    use HasTranslatedResourceLabels;
 
     protected static ?string $model = Product::class;
 
@@ -39,16 +28,11 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')->required()->label(__('product.fields.name')),
-                Forms\Components\Textarea::make('description')->label(__('product.fields.description')),
-                Forms\Components\TextInput::make('price')->numeric()->required()->label(__('product.fields.price')),
-                Forms\Components\TextInput::make('stock')->numeric()->required()->label(__('product.fields.stock')),
-                Forms\Components\FileUpload::make('image')->directory('product-images')->label(__('product.fields.image')),
-                Forms\Components\Select::make('owner_id')
-                    ->relationship('owner', 'name')
-                    ->searchable()
-                    ->required()
-                    ->label(__('product.fields.owner')),
+                static::__TextInput('name')->required(),
+                static::__Textarea('description'),
+                static::__TextInput('price')->numeric()->required(),
+                static::__TextInput('stock')->numeric()->required(),
+                static::__FileUpload('image')->directory('resources.products-images')
             ]);
     }
 
@@ -56,11 +40,11 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->searchable()->sortable()->label(__('product.fields.name')),
-                Tables\Columns\TextColumn::make('price')->money('OMR')->label(__('product.fields.price')),
-                Tables\Columns\TextColumn::make('stock')->label(__('product.fields.stock')),
-                Tables\Columns\TextColumn::make('owner.name')->searchable()->label('Owner')->label(__('product.fields.owner')),
-                ImageColumn::make('image')->disk('public')->label('product-images')->label(__('product.fields.image')),
+                static::__TextColumn('name')->searchable()->sortable(),
+                static::__TextColumn('price')->money('OMR'),
+                static::__TextColumn('stock'),
+                static::__TextColumn('owner.name')->searchable(),
+                static::__ImageColumn('image')->disk('public'),
             ])
             ->filters([
                 Tables\Filters\Filter::make('in_stock')
@@ -72,7 +56,7 @@ class ProductResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\ViewAction::make()->label(__('product.fields.view')),
+                Tables\Actions\ViewAction::make()->label(__('resources.products.fields.view')),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
