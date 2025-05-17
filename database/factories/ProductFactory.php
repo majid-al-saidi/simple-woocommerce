@@ -5,25 +5,38 @@ namespace Database\Factories;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
- */
 class ProductFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-            'name' => $this->faker->words(2, true),
-        'description' => $this->faker->paragraph(),
-        'price' => $this->faker->randomFloat(2, 5, 500),
-        'stock' => $this->faker->numberBetween(0, 100),
-        'image' => 'box.png',
-        'owner_id' => User::inRandomOrder()->first()?->id ?? User::factory(),
+            'name' => fake()->randomElement([
+                'حاسوب محمول',
+                'هاتف ذكي',
+                'سماعات لاسلكية',
+                'ساعة ذكية',
+                'كرسي ألعاب',
+                'لوحة مفاتيح ميكانيكية',
+                'شاشة 4K',
+                'طابعة ليزر',
+                'كاميرا مراقبة',
+                'ماوس احترافي',
+            ]),
+
+            'description' => fake()->randomElement([
+                'منتج عالي الجودة يقدم تجربة استخدام متميزة.',
+                'خيار مثالي لمن يبحث عن الأداء والسعر المناسب.',
+                'صنع بخامات متينة وتصميم عصري.',
+                'الأكثر مبيعًا في السوق لهذا الشهر.',
+                'يوفر راحة وكفاءة في العمل أو الدراسة.',
+                'مناسب للاستخدام اليومي أو المهني.',
+                'مزود بأحدث التقنيات وميزات ذكية.',
+            ]),
+
+            'price' => fake()->randomFloat(2, 15, 999), // بين 15 و 999 ريال
+            'stock' => fake()->numberBetween(0, 200),
+            'image' => 'default.png',
+            'owner_id' => User::inRandomOrder()->first()?->id ?? User::factory(),
         ];
     }
 }
